@@ -58,7 +58,7 @@ int length = dene->getLength();
     Movie* m1 = new Movie(133,5);
         Node<Movie>* tm1 = new Node<Movie>(m1);
 cout<<"IS tm Exist. Expected output:" << false<< "my output: "<<dene->isExist(tm1)<<endl;
-    dene->remove(tm);
+    dene->remove(tm1);
  /*   length = dene->getLength();
     cout<<"Third length: "<<dene->getLength()<<"\n";
     while(length > 0){

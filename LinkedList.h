@@ -9,6 +9,8 @@
 #include <iostream>
 #include "Node.h"
 #include "Movie.h"
+#include "Subscriber.h"
+#include "Transaction.h"
 #include "string"
 using namespace std;
 
@@ -39,9 +41,19 @@ LinkedList<ItemType>::LinkedList(){
 }
 template <class ItemType>
 LinkedList<ItemType>::~LinkedList(){
-    while(head != nullptr){
+    /* while(head != nullptr){
         remove(head);
-    }
+    } */
+        if(head != nullptr){
+                Node<ItemType>* ptr = head;
+                while(ptr != nullptr){
+                        Node<ItemType>* temp = ptr->next;
+                        delete ptr;
+                        ptr = temp;
+                }
+                head = nullptr;
+        }
+
 }
 //-------------------------------------------------ADD NODE----------------------------------------------------------------
 template <class ItemType>

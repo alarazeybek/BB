@@ -17,14 +17,18 @@ using namespace std;
 //typedef Movie ItemType;
 
 int main() {
-Movie* m = new Movie(133,5);
+    Movie* m = new Movie(133,5);
     Node<Movie>* tm = new Node<Movie>(m);
+    
     Movie* k = new Movie(44,1);
     Node<Movie>* km = new Node<Movie>(k);
+    
     Movie* z = new Movie(1,500);
     Node<Movie>* zm = new Node<Movie>(z);
+    
     Movie* d = new Movie(43,1);
     Node<Movie>* dm = new Node<Movie>(d);
+    
     Movie* b = new Movie(300,4);
     Node<Movie>* bm = new Node<Movie>(b);
 
@@ -51,8 +55,9 @@ int length = dene->getLength();
         cout<<dene->getItem(length)->getId()<<endl; //1
         length--; //2
     }
-
-cout<<"IS tm Exist. Expected output:" << false<< "my output: "<<dene->isExist(tm)<<endl;
+    Movie* m1 = new Movie(133,5);
+        Node<Movie>* tm1 = new Node<Movie>(m1);
+cout<<"IS tm Exist. Expected output:" << false<< "my output: "<<dene->isExist(tm1)<<endl;
     dene->remove(tm);
  /*   length = dene->getLength();
     cout<<"Third length: "<<dene->getLength()<<"\n";
@@ -148,10 +153,12 @@ int length = dene->getLength();
     }
 */
     cout<<"--------end---------\n";
+    /*
     delete km;
     delete zm;
     delete dm;
     delete bm;
+     */
     delete dene;
 }
 

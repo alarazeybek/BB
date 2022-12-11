@@ -19,9 +19,10 @@ template <class ItemType>
 class LinkedList
 {
 private:
-   Node<ItemType> *head = nullptr;
    int nodeNumber;
 public:
+    Node<ItemType> *head = nullptr;
+
     LinkedList<ItemType>();
     ~LinkedList<ItemType>();
     bool isEmpty();

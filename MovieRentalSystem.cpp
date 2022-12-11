@@ -33,6 +33,10 @@ void MovieRentalSystem::removeSubscriber( const int subscriberId ){
     Node<Subscriber>* toRemove = subsList->getNodeFromId(subscriberId);
     subsList->remove(toRemove); //nullptr olmasını remove methodu check eder
 }
+void rentMovie( const int subscriberId, const int movieId );
+void returnMovie( const int subscriberId, const int movieId );
+void showMoviesRentedBy( const int subscriberId ) const;
+void showSubscribersWhoRentedMovie( const int movieId ) const;
 
 void MovieRentalSystem::showAllMovies() const{
     cout<<"Movies in the movie rental system:"<<endl;
@@ -42,10 +46,21 @@ void MovieRentalSystem::showAllMovies() const{
     else{
         Node<Movie>* temp = movieList->head;
         while(temp!=nullptr){
-            cout<<temp->itemptr->getId()<<" "<<temp->itemptr->getCount();
+            cout<<temp->itemptr->getId()<<" "<<temp->itemptr->getCount()<<endl;
+            temp = temp->next;
         }
     }
 }
 void MovieRentalSystem::showAllSubscribers() const{
-
+    cout<<"Subscribers in the movie rental system:"<<endl;
+    if(subsList->isEmpty()){
+        cout<<"None"<<endl;
+    }
+    else{
+        Node<Subscriber>* temp = subsList->head;
+        while(temp!=nullptr){
+            cout<<temp->itemptr->getId()<<endl;
+            temp = temp->next;
+        }
+    }
 }

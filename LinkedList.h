@@ -30,6 +30,7 @@ public:
     void insert(Node<ItemType>* n);
     void remove(Node<ItemType>*& n);
     ItemType* getItem(int index);
+    Node<ItemType>* getNodeFromId(int id);
     int compareIDs(Node<ItemType>* n1, Node<ItemType>* n2);
 };
 
@@ -125,6 +126,34 @@ void LinkedList<ItemType>::remove(Node<ItemType>*& n){
 
 //------------------------------------------------HELPER METHODS-----------------------------------------------------------
 template <class ItemType>
+Node<ItemType>* LinkedList<ItemType>::getNodeFromId(int id){
+    return nullptr;
+}
+template <>
+Node<Movie>* LinkedList<Movie>::getNodeFromId(int id){
+    Node<Movie> *temp = head;
+    while(temp!=nullptr){
+        if(temp->itemptr->getId() == id){
+            return temp;
+        }
+        temp = temp->next;
+    }
+    //cout<<"Id cannot be found in the list!\n";
+    return nullptr;
+}
+template <>
+Node<Subscriber>* LinkedList<Subscriber>::getNodeFromId(int id){
+    Node<Subscriber> *temp = head;
+    while(temp!=nullptr){
+        if(temp->itemptr->getId() == id){
+            return temp;
+        }
+        temp = temp->next;
+    }
+    //cout<<"Id cannot be found in the list!\n";
+    return nullptr;
+}
+template <class ItemType>
 bool LinkedList<ItemType>::isExist(Node<ItemType>*& n){
     Node<ItemType>* temp = head;
     if(n == nullptr){
@@ -168,6 +197,20 @@ int LinkedList<ItemType>::compareIDs(Node<ItemType>* n1, Node<ItemType>* n2){
 }
 template <>
 int LinkedList<Movie>::compareIDs(Node<Movie>* n1, Node<Movie>* n2){
+    if(n1->itemptr->getId() ==  n2->itemptr->getId()){
+        return 0;
+    }
+    else if(n1->itemptr->getId() >  n2->itemptr->getId()){
+        return 1;
+    }
+    else if(n1->itemptr->getId() <  n2->itemptr->getId()){
+        return -1;
+    }
+//    May  need to delete here as well
+    return -666;
+}
+template <>
+int LinkedList<Subscriber>::compareIDs(Node<Subscriber>* n1, Node<Subscriber>* n2){
     if(n1->itemptr->getId() ==  n2->itemptr->getId()){
         return 0;
     }

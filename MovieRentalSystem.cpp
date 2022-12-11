@@ -20,5 +20,32 @@ MovieRentalSystem::~MovieRentalSystem(){
     delete transList;
 }
 void MovieRentalSystem::removeMovie( const int movieId ){
-    
+    //finding the ID movie
+    Node<Movie>* toRemove = movieList->getNodeFromId(movieId);
+    movieList->remove(toRemove); //nullptr olmasını remove methodu check eder
+}
+void MovieRentalSystem::addMovie( const int movieId, const int numCopies ){
+    Movie* m = new Movie(movieId,numCopies);
+    Node<Movie>* n = new Node<Movie>(m);
+    movieList->insert(n);
+}
+void MovieRentalSystem::removeSubscriber( const int subscriberId ){
+    Node<Subscriber>* toRemove = subsList->getNodeFromId(subscriberId);
+    subsList->remove(toRemove); //nullptr olmasını remove methodu check eder
+}
+
+void MovieRentalSystem::showAllMovies() const{
+    cout<<"Movies in the movie rental system:"<<endl;
+    if(movieList->isEmpty()){
+        cout<<"None"<<endl;
+    }
+    else{
+        Node<Movie>* temp = movieList->head;
+        while(temp!=nullptr){
+            cout<<temp->itemptr->getId()<<" "<<temp->itemptr->getCount();
+        }
+    }
+}
+void MovieRentalSystem::showAllSubscribers() const{
+
 }

@@ -47,5 +47,5 @@ template <>
 Node<Movie>::Node( const Node<Movie>& n);
 template <>
 Node<Transaction>::Node( const Node<Transaction>& n);
-  */
-#endif
+ 
+#endif */

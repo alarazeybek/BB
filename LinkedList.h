@@ -54,8 +54,8 @@ public:
     bool isEmpty();
     bool isExist(Node<ItemType>*& n);
     int getLength();
-    void insert(Node<ItemType>* n);
-    void remove(Node<ItemType>*& n);
+    bool insert(Node<ItemType>* n);
+    bool remove(Node<ItemType>*& n);
     ItemType* getItem(int index);
     Node<ItemType>* getNodeFromId(int id);
     int compareIDs(Node<ItemType>* n1, Node<ItemType>* n2);
@@ -114,22 +114,22 @@ LinkedList<ItemType>::~LinkedList(){
 }
 //-------------------------------------------------ADD NODE----------------------------------------------------------------
 template <class ItemType>
-void LinkedList<ItemType>::insert(Node<ItemType>* n){ 
+bool LinkedList<ItemType>::insert(Node<ItemType>* n){ 
     if(isExist(n)){
         delete n; //TODO : error verebilir. List e eklenmezse silinmez ve leak verir //siliyor ve ram loc basıyor
-        cout<<"already exists, cannot insert. "<<endl;
-        return;
+        //cout<<"already exists, cannot insert. "<<endl;
+        return false;
     } 
     else if(head == nullptr){ //empty list
         head = n;
         nodeNumber++;
-        return;
+        return true;
     }
     else if(compareIDs(n,head)<0){ //n is the smallest ID
         n->next = head;
         head = n;
         nodeNumber++;
-        return;
+        return true;
     }
     else{
         Node<ItemType>* left = head;
@@ -141,21 +141,21 @@ void LinkedList<ItemType>::insert(Node<ItemType>* n){
         left->next = n;
         n->next = right;
         nodeNumber++;
-        return;
+        return true;
     }
 }
 //------------------------------------------------REMOVE NODE---------------------------------------------------------------
 template <class ItemType>
-void LinkedList<ItemType>::remove(Node<ItemType>*& n){
+bool LinkedList<ItemType>::remove(Node<ItemType>*& n){
     if(isEmpty()){
-        cout<<"There are no element to remove in the list"<<endl;
+       // cout<<"There are no element to remove in the list"<<endl;
         delete n;
-        return;
+        return false;
     }
     else if(!isExist(n)){
-        cout<<"Element to remove cannot be found in the list"<<endl;
+       // cout<<"Element to remove cannot be found in the list"<<endl;
         delete n;
-        return;
+        return false;
     }
     else if(compareIDs(head,n) == 0){//first element
         Node<ItemType>* right = head->next;
@@ -163,6 +163,7 @@ void LinkedList<ItemType>::remove(Node<ItemType>*& n){
         nodeNumber--;
         head = right;
         n = nullptr;
+        return true;
     }
     else{
         Node<ItemType>* left = head;
@@ -174,7 +175,7 @@ void LinkedList<ItemType>::remove(Node<ItemType>*& n){
         nodeNumber--;
         left->next = right;
         n = nullptr;
-        return;
+        return true;
     }
 }
 //create a remove method which took a index and deleted that one

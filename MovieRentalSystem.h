@@ -26,9 +26,9 @@ class MovieRentalSystem {
         void removeSubscriber( const int subscriberId );
         void rentMovie( const int subscriberId, const int movieId );
         void returnMovie( const int subscriberId, const int movieId );
-        void showMoviesRentedBy( const int subscriberId ) const;
-        void showSubscribersWhoRentedMovie( const int movieId ) const;
-        void showAllMovies() const;
-        void showAllSubscribers() const;
+        void showMoviesRentedBy( const int subscriberId ); //const;
+        void showSubscribersWhoRentedMovie( const int movieId ); //const;
+        void showAllMovies(); //const;
+        void showAllSubscribers(); //const;
 };
 #endif

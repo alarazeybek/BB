@@ -4,88 +4,74 @@
 *Section-002
 *CS201 HW3
 */
-//
-//#include <iostream>
-//#include <fstream>
-//#include <string>
-//#include "Node.h"
-//#include "LinkedList.h"
-//#include "Movie.h"
-//#include "Subscriber.h"
-//#include "Transaction.h"
-//using namespace std;
-////typedef Movie ItemType;
-//
-//int main() {
-//    Movie* m = new Movie(133,5);
-//    Node<Movie>* tm = new Node<Movie>(m);
-//    Movie* k = new Movie(44,1);
-//    Node<Movie>* km = new Node<Movie>(k);
-//    Movie* z = new Movie(1,500);
-//    Node<Movie>* zm = new Node<Movie>(z);
-//    Movie* d = new Movie(43,1);
-//    Node<Movie>* dm = new Node<Movie>(d);
-//    Movie* b = new Movie(300,4);
-//    Node<Movie>* bm = new Node<Movie>(b);
-//
-//    LinkedList<Movie> dene;
-//    dene.insert(tm);
-//    dene.insert(km);
-//    dene.insert(zm);
-//    dene.insert(dm);
-//    dene.insert(bm);
-//    cout<<"First length: "<<dene.getLength()<<"\n-----------------\n";
-//    int length = dene.getLength();
-//    while(length > 0){
-//        cout<<dene.getItem(length)->getId()<<endl;
-//        length--;
-//    }
-//    dene.remove(tm);
-//    length = dene.getLength();
-//    cout<<"Second length: "<<dene.getLength()<<"\n-----------------\n";
-//    while(length > 0){
-//        cout<<dene.getItem(length)->getId()<<endl;
-//        length--;
-//    }
-//    dene.remove(tm);
-//    length = dene.getLength();
-//    cout<<"Third length: "<<dene.getLength()<<"\n-----------------\n";
-//    while(length > 0){
-//        cout<<dene.getItem(length)->getId()<<endl;
-//        length--;
-//    }
-//    dene.remove(bm);
-//    dene.remove(zm);
-//    length = dene.getLength();
-//    cout<<"Fourth length: "<<dene.getLength()<<"\n-----------------\n";
-//    while(length > 0){
-//        cout<<dene.getItem(length)->getId()<<endl;
-//        length--;
-//    }
-///*    dene.insert(new Node(new Movie(9,1)));
-//    dene.insert(new Node(new Movie(8,1)));
-//    dene.insert(new Node(new Movie(7,1)));
-//    dene.insert(new Node(new Movie(6,1)));
-//    dene.insert(new Node(new Movie(5,1)));
-//    int length = dene.getLength();
-//    while(length > 0){
-//        cout<<dene.getItem(length)->getId()<<endl;
-//        length--;
-//    }
-//
-//    dene.insert(tm);
-//    dene.insert(new Node(new Movie(88,1)));
-//    dene.insert(new Node(new Movie(8232,1)));
-//    dene.insert(new Node(new Movie(44,1)));
-//    dene.insert(new Node(new Movie(1,1)));
-//    dene.insert(new Node(new Movie(0,5551)));
-//    dene.insert(tm);
-//    int length = dene.getLength();
-//    cout<<"Length: "<<length<<endl;
-//    cout<<"Is exist? False:"<<false<<" and result: "<<dene.isExist(tm)<<endl;
-//    while(length > 0){
-//        cout<<dene.getItem(length)->getId()<<endl;
-//        length--;
-//    }
-//*/
-//}
+#include <iostream>
+#include "MovieRentalSystem.h"
+using namespace std;
+int main( ) {
+    MovieRentalSystem firstMRS( "my_movies.txt", "subscribers.txt" );
+    cout << endl;
+    MovieRentalSystem MRS( "movies.txt", "subscribers.txt" );
+    cout << endl;
+    MRS.showAllMovies();
+    cout << endl;
+    MRS.showAllSubscribers();
+    cout << endl;
+    MRS.removeMovie( 600 );
+    MRS.removeMovie( 600 );
+    MRS.removeMovie( 70 );
+    cout << endl;
+    MRS.addMovie( 99, 3 );
+    cout << endl;
+    MRS.showAllMovies();
+    cout << endl;
+    MRS.rentMovie( 1111, 10 );
+    MRS.rentMovie( 1111, 20 );
+    MRS.rentMovie( 7777, 10 );
+    MRS.rentMovie( 6666, 10 );
+    MRS.rentMovie( 7777, 80 );
+    MRS.rentMovie( 6666, 100 );
+    MRS.rentMovie( 4444, 40 );
+    MRS.rentMovie( 4444, 50 );
+    MRS.rentMovie( 1234, 30 );
+    MRS.rentMovie( 1111, 33 );
+    MRS.rentMovie( 1234, 33 );
+    cout << endl;
+    MRS.returnMovie( 7777, 80 );
+    MRS.returnMovie( 6666, 100 );
+    MRS.returnMovie( 1111, 20 );
+    MRS.returnMovie( 4444, 10 );
+    MRS.returnMovie( 1111, 20 );
+    cout << endl;
+    MRS.rentMovie( 3333, 80 );
+    MRS.rentMovie( 8888, 100 );
+    MRS.rentMovie( 1111, 100 );
+    MRS.rentMovie( 1111, 100 );
+    cout << endl;
+    MRS.rentMovie( 1111, 20 );
+    MRS.returnMovie( 1111, 20 );
+    MRS.rentMovie( 1111, 20 );
+    cout << endl;
+    MRS.showMoviesRentedBy( 1111 );
+    MRS.showMoviesRentedBy( 8888 );
+    MRS.showMoviesRentedBy( 2222 );
+    MRS.showMoviesRentedBy( 1234 );
+    cout << endl;
+    MRS.showSubscribersWhoRentedMovie( 10 );
+    MRS.showSubscribersWhoRentedMovie( 100 );
+    MRS.showSubscribersWhoRentedMovie( 30 );
+    MRS.showSubscribersWhoRentedMovie( 70 );
+    cout << endl;
+    MRS.removeMovie( 100 );
+    cout << endl;
+    MRS.removeSubscriber( 1111 );
+    cout << endl;
+    MRS.removeSubscriber( 5555 );
+    cout << endl;
+    MRS.removeSubscriber( 6666 );
+    cout << endl;
+    MRS.showAllSubscribers();
+    cout << endl;
+    MRS.showAllMovies();
+    cout << endl;
+    return 0;
+}

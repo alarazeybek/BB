@@ -6,6 +6,8 @@
 */
 #include <iostream>
 #include "MovieRentalSystem.h"
+#include <string>
+#include <fstream>
 using namespace std;
 //---------------------------------------CONSTRUCTOR & DECONSTRUCTOR--------------------------------
 MovieRentalSystem::MovieRentalSystem( const string movieInfoFileName,
@@ -13,7 +15,45 @@ const string subscriberInfoFileName ){
     movieList = new LinkedList<Movie>();
     subsList = new LinkedList<Subscriber>();
     transList = new LinkedList<Transaction>();
-    
+    string m = movieInfoFileName;
+    string s = subscriberInfoFileName;
+    int begin1 = 0, begin2 = 0;
+    int movieId = 0, numCount = 0, subscriberInfo = 0;
+    ifstream movie;
+    ifstream sub;
+    movie.open(m);
+    sub.open(s);
+if(!movie || !sub){
+        if(!movie && !sub){
+            cout << "Input files " << movieInfoFileName << " and " << subscriberInfoFileName << " does not exist" << endl;
+        }
+        else if(!movie){
+            cout << "Input file " << movieInfoFileName << " does not exist" << endl;
+        }
+        else{
+            cout << "Input file " << subscriberInfoFileName << " does not exist" << endl;
+        }
+    }
+    else{
+        movie >> begin1;
+        while(movie.eof() == false){
+            movie>>movieId;
+            movie>>numCount;
+            Movie* tempMovie = new Movie(movieId,numCount);
+            Node<Movie>* tempNode = new Node<Movie>(tempMovie);
+            movieList->insert(tempNode);
+        }
+        sub>>begin2;
+        while(sub.eof() == false){
+            sub>>subscriberInfo;
+            Subscriber* tempSubs = new Subscriber(subscriberInfo);
+            Node<Subscriber>* tempNode = new Node<Subscriber>(tempSubs);
+            subsList->insert(tempNode);
+            cout<<"Inserted ID: "<<tempNode->itemptr->getId()<<endl;
+        }
+        //cout<<subsList->getLength()<<" subscribers and "<<movieList->getLength()<<" movies have been loaded"<<endl;
+        cout<<begin2<<" subscribers and "<<begin1<<" movies have been loaded"<<endl; 
+    }
 }
 MovieRentalSystem::~MovieRentalSystem(){
     delete movieList;
@@ -25,16 +65,63 @@ MovieRentalSystem::~MovieRentalSystem(){
 void MovieRentalSystem::removeMovie( const int movieId ){
     //finding the ID movie
     Node<Movie>* toRemove = movieList->getNodeFromId(movieId);
-    movieList->remove(toRemove); //nullptr olmasını remove methodu check eder
+    int count , leftCount;
+    if(toRemove!=nullptr){
+        count = toRemove->itemptr->getCount();
+        leftCount = toRemove->itemptr->getLeftCount();
+    }
+    bool b = movieList->remove(toRemove); //nullptr olmasını remove methodu check eder
+    if(b){
+        if(count == leftCount){ //toRemove->itemptr->getLeftCount() == toRemove->itemptr->getCount()
+            cout<<"Movie "<<movieId<<" has been removed"<<endl;
+        }
+        else{
+            cout<<"Movie "<<movieId<<" cannot be removed -- at least one copy has not been returned"<<endl;
+        }
+    }
+    else{
+        cout<<"Movie "<<movieId<<" does not exist"<<endl;
+    }
 }
+
 void MovieRentalSystem::addMovie( const int movieId, const int numCopies ){
     Movie* m = new Movie(movieId,numCopies);
     Node<Movie>* n = new Node<Movie>(m);
-    movieList->insert(n);
+    bool b = movieList->insert(n);
+    if(b){
+        cout<<"Movie "<<movieId<<" has been added"<<endl;
+    }
+    else{
+        cout<<"Ne basacam \n";
+    }
 }
+
 void MovieRentalSystem::removeSubscriber( const int subscriberId ){
     Node<Subscriber>* toRemove = subsList->getNodeFromId(subscriberId);
-    subsList->remove(toRemove); //nullptr olmasını remove methodu check eder
+    bool NoRentedMovie ;
+    if(toRemove!=nullptr){
+       NoRentedMovie = toRemove->itemptr->rentedList->isEmpty();
+    }
+    bool b = subsList->remove(toRemove); //nullptr olmasını remove methodu check eder
+    if(b){
+        if(NoRentedMovie){
+            //butun transcriptleri silmek:
+            int toRemoveID = toRemove->itemptr->getId();
+            Node<Transaction>* ptr = transList->head;
+            while(ptr != nullptr){
+                if(ptr->itemptr->getSubscriber() == toRemoveID){
+                    transList->remove(ptr);
+                }
+            }
+            cout<<"Subscriber "<<subscriberId<<" has been removed"<<endl;
+        }
+        else{
+            cout<<"Subscriber "<<subscriberId<<" cannot be removed -- at least one movie has not been returned"<<endl;
+        }
+    }
+    else{
+        cout<<"Subscriber "<<subscriberId<<" does not exist"<<endl;
+    }
 }
 
 //--------------------------------------RENT & RETURN MOVIE--------------------------------------
@@ -50,28 +137,29 @@ void MovieRentalSystem::rentMovie( const int subscriberId, const int movieId ){
             Transaction* t = new Transaction(movieId,subscriberId,true);
             Node<Transaction>* trans = new Node<Transaction>(t);
             transList->insert(trans);
+            cout<<"Movie "<<movieId<<" has been rented by subscriber "<<subscriberId<<endl;
             return;
         }
        else{
-            cout<<"no available copy";
+            cout<<"Movie "<<movieId<<" has no available copy for renting"<<endl;
        }
     }
     else if(!movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
-        cout<<"no movie and no subs\n";
+        cout<<"Subscriber "<<subscriberId<<" and movie "<<movieId<<" do not exist"<<endl;
         return;
     }
     else if(!movieList->isExist(movieFromId) && subsList->isExist(whoRent)){
-        cout<<"no movie and yes subs\n";
+        cout<<"Movie "<<movieId<<" does not exist"<<endl;
         return;
     }
     else if(movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
-        cout<<"yes movie and no subs\n";
+        cout<<"Subscriber "<<subscriberId<<" does not exist"<<endl;
         return;
     }
 }
 void MovieRentalSystem::returnMovie( const int subscriberId, const int movieId ){
     Node<Subscriber>* whoRent = subsList->getNodeFromId(subscriberId);
-    Node<Movie>* movieFromId = movieList->getNodeFromId(subscriberId);
+    Node<Movie>* movieFromId = movieList->getNodeFromId(movieId);
     if(movieList->isExist(movieFromId) && subsList->isExist(whoRent)){ //checking movie and subs exist
         Node<Movie>* temp = whoRent->itemptr->rentedList->getNodeFromId(movieId);
         if(whoRent->itemptr->rentedList->isExist(temp)){ //checking subscriber has rented that movie or not
@@ -80,35 +168,37 @@ void MovieRentalSystem::returnMovie( const int subscriberId, const int movieId )
             Transaction* t = new Transaction(movieId,subscriberId,false);
             Node<Transaction>* trans = new Node<Transaction>(t);
             transList->insert(trans);
+            cout<<"Movie "<<movieId<<" has been returned by subscriber "<<subscriberId<<endl;
             return;
         }
        else{
-            cout<<"Subs has not rented that movie";
+            cout<<"No rental transaction for subscriber "<<subscriberId<<" and movie "<<movieId<<endl;
        }
     }
     else if(!movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
-        cout<<"no movie and no subs\n";
+        cout<<"Subscriber "<<subscriberId<<" and movie "<<movieId<<" do not exist"<<endl;
         return;
     }
     else if(!movieList->isExist(movieFromId) && subsList->isExist(whoRent)){
-        cout<<"no movie and yes subs\n";
+        cout<<"Movie "<<movieId<<" does not exist"<<endl;
         return;
     }
     else if(movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
-        cout<<"yes movie and no subs\n";
+        cout<<"Subscriber "<<subscriberId<<" does not exist"<<endl;
         return;
     }
 }
 
 //----------------------------------------------TO STRINGS-------------------------------------------
-void showMoviesRentedBy( const int subscriberId ) { 
+//TODO ornek file da const functionlar deneme icin const yazilarini sildim
+void MovieRentalSystem::showMoviesRentedBy( const int subscriberId ) { 
 
 }
-void showSubscribersWhoRentedMovie( const int movieId ) {
+void MovieRentalSystem::showSubscribersWhoRentedMovie( const int movieId ) {
 
 }
 
-void MovieRentalSystem::showAllMovies() const{
+void MovieRentalSystem::showAllMovies() {
     cout<<"Movies in the movie rental system:"<<endl;
     if(movieList->isEmpty()){
         cout<<"None"<<endl;
@@ -121,9 +211,9 @@ void MovieRentalSystem::showAllMovies() const{
         }
     }
 }
-void MovieRentalSystem::showAllSubscribers() const{
-    cout<<"Subscribers in the movie rental system:"<<endl;
-    if(subsList->isEmpty()){
+void MovieRentalSystem::showAllSubscribers() {
+   cout<<"Subscribers in the movie rental system:"<<endl;
+     /*if(subsList->isEmpty()){
         cout<<"None"<<endl;
     }
     else{
@@ -132,5 +222,5 @@ void MovieRentalSystem::showAllSubscribers() const{
             cout<<temp->itemptr->getId()<<endl;
             temp = temp->next;
         }
-    }
+    }*/
 }

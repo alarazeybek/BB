@@ -99,22 +99,22 @@ void MovieRentalSystem::addMovie( const int movieId, const int numCopies ){
 void MovieRentalSystem::removeSubscriber( const int subscriberId ){
     Node<Subscriber>* toRemove = subsList->getNodeFromId(subscriberId);
     bool NoRentedMovie ;
-    int toRemoveID;
     if(toRemove!=nullptr){
        NoRentedMovie = toRemove->itemptr->rentedList->isEmpty();
-       toRemoveID = toRemove->itemptr->getId();
     }
-    bool b = subsList->remove(toRemove); //nullptr olmasını remove methodu check eder
+    bool b = subsList->isExist(toRemove);
     if(b){
         if(NoRentedMovie){
+            subsList->remove(toRemove); //nullptr olmasını remove methodu check eder
             //butun transcriptleri silmek:
-            
             Node<Transaction>* ptr = transList->head;
             while(ptr != nullptr){
-                if(ptr->itemptr->getSubscriber() == toRemoveID){
+                Node<Transaction>* temp = ptr->next;
+                if(ptr->itemptr->getSubscriber() == subscriberId){
+                //cout<<"6666 icin ->"<< ptr->itemptr->getLabel()<<endl;
                     transList->remove(ptr);
                 }
-                ptr = ptr->next;
+                ptr = temp;
             }
             cout<<"Subscriber "<<subscriberId<<" has been removed"; //ta forgot endl
         }
@@ -249,5 +249,13 @@ void MovieRentalSystem::showAllSubscribers() {
             cout<<temp->itemptr->getId()<<endl;
             temp = temp->next;
         }
+    }
+}
+void MovieRentalSystem::showTransactions(){
+    cout<<  "Transactions\n";
+    Node<Transaction>* ptr = transList->head;
+    while(ptr!=nullptr){
+        cout<<ptr->itemptr->getLabel()<<endl;
+        ptr = ptr->next;
     }
 }

@@ -13,10 +13,12 @@ Transaction::Transaction(int movieID, int SubsID, bool isRent){
     sID = SubsID;
     rent = isRent;
     if(isRent){
-        lable = "Subscriber " + to_string(sID) +" rented Movie " + to_string(mID);
+        //lable = "Subscriber " + to_string(sID) +" rented Movie " + to_string(mID);
+        lable = "Movie " + to_string(mID) + " has been rented by subscriber "+to_string(sID);
     }
     else{
-        lable = "Subscriber " + to_string(sID) +" returned Movie " + to_string(mID);
+        //lable = "Subscriber " + to_string(sID) +" returned Movie " + to_string(mID);
+        lable = "Movie " + to_string(mID) + " has been returned by subscriber "+to_string(sID);
     }
 }
 int Transaction::getMovie(){

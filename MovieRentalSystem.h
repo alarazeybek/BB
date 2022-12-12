@@ -30,5 +30,7 @@ class MovieRentalSystem {
         void showSubscribersWhoRentedMovie( const int movieId ); //const;
         void showAllMovies(); //const;
         void showAllSubscribers(); //const;
+
+        void showTransactions();
 };
 #endif

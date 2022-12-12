@@ -41,7 +41,32 @@ int LinkedList<Subscriber>::compareIDs(Node<Subscriber>* n1, Node<Subscriber>* n
 }
 template <>
 int LinkedList<Transaction>::compareIDs(Node<Transaction>* n1, Node<Transaction>* n2){
-    
+    if(n1->itemptr->getMovie() ==  n2->itemptr->getMovie()){
+        if(n1->itemptr->getSubscriber() ==  n2->itemptr->getSubscriber()){
+            if(n1->itemptr->getRent() ==  n2->itemptr->getRent()){
+                return 0;
+            }
+            else if(n1->itemptr->getRent() == true &&  n2->itemptr->getRent() == false){
+                return -1;
+            }
+            else if(n1->itemptr->getRent() == false &&  n2->itemptr->getRent() == true){
+                return 1;
+            }
+        }
+        else if(n1->itemptr->getSubscriber() >  n2->itemptr->getSubscriber()){
+            return 1;
+        }
+        else if(n1->itemptr->getSubscriber() <  n2->itemptr->getSubscriber()){
+            return -1;
+        }
+    }
+    else if(n1->itemptr->getMovie() >  n2->itemptr->getMovie()){
+        return 1;
+    }
+    else if(n1->itemptr->getMovie() <  n2->itemptr->getMovie()){
+        return -1;
+    }
+//    May  need to delete here as well
     return -666;
 }
 

@@ -13,6 +13,7 @@ const string subscriberInfoFileName ){
     movieList = new LinkedList<Movie>();
     subsList = new LinkedList<Subscriber>();
     transList = new LinkedList<Transaction>();
+    
 }
 MovieRentalSystem::~MovieRentalSystem(){
     delete movieList;

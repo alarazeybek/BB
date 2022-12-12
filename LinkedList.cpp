@@ -2,69 +2,76 @@
 *Alara Zeybek
 *22102544
 *Section-002
-*CS201 HW3
+*CS201 HW3 */
 
 #include <iostream>
 #include "LinkedList.h"
-#include "Node.h"
 #include "string"
 using namespace std;
 
-template <class ItemType>
-LinkedList<ItemType>::LinkedList(){
-    head = nullptr;
-    nodeNumber = 0;
+//-----------------------------------------COMPARE IDS-------------------------------------------
+
+template <>
+int LinkedList<Movie>::compareIDs(Node<Movie>* n1, Node<Movie>* n2){
+    if(n1->itemptr->getId() ==  n2->itemptr->getId()){
+        return 0;
+    }
+    else if(n1->itemptr->getId() >  n2->itemptr->getId()){
+        return 1;
+    }
+    else if(n1->itemptr->getId() <  n2->itemptr->getId()){
+        return -1;
+    }
+//    May  need to delete here as well
+    return -666;
 }
-template <class ItemType>
-LinkedList<ItemType>::LinkedList(ItemType data){
-    head = new Node<ItemType>(data);
-    nodeNumber = 1;
+template <>
+int LinkedList<Subscriber>::compareIDs(Node<Subscriber>* n1, Node<Subscriber>* n2){
+    if(n1->itemptr->getId() ==  n2->itemptr->getId()){
+        return 0;
+    }
+    else if(n1->itemptr->getId() >  n2->itemptr->getId()){
+        return 1;
+    }
+    else if(n1->itemptr->getId() <  n2->itemptr->getId()){
+        return -1;
+    }
+//    May  need to delete here as well
+    return -666;
 }
-template <class ItemType>
-LinkedList<ItemType>::~LinkedList(){
-    clear();
-    nodeNumber=0;
+template <>
+int LinkedList<Transaction>::compareIDs(Node<Transaction>* n1, Node<Transaction>* n2){
+    
+    return -666;
 }
-template <class ItemType>
-bool LinkedList<ItemType>::isEmpty(){
-    return head == nullptr;
+
+//------------------------------------------------HELPER METHODS-----------------------------------------------------------
+
+template <>
+Node<Transaction>* LinkedList<Transaction>::getNodeFromId(int id){
+    return nullptr;
 }
-template <class ItemType>
-int LinkedList<ItemType>::getLength(){
-    return nodeNumber;
-}
-template <class ItemType>
-void LinkedList<ItemType>::insert( const ItemType& newEntry){
-    Node<ItemType>* temp = head ;
-    while(temp != nullptr && temp->next != nullptr){
+template <>
+Node<Movie>* LinkedList<Movie>::getNodeFromId(int id){
+    Node<Movie> *temp = head;
+    while(temp!=nullptr){
+        if(temp->itemptr->getId() == id){
+            return temp;
+        }
         temp = temp->next;
     }
-    nodeNumber++;
-    temp->next = new Node<ItemType>(newEntry);
+    //cout<<"Id cannot be found in the list!\n";
+    return nullptr;
 }
-template <class ItemType>
-void LinkedList<ItemType>::remove(const int position){return;}
-
-template <class ItemType>
-void LinkedList<ItemType>::clear(){
-    while(!isEmpty()){
-        Node<ItemType> *temp = head->next;
-        delete head;
-        nodeNumber--;
-        head = temp;
-    }
-}
-
-template <class ItemType>
-ItemType LinkedList<ItemType>::getItem(int index){
-    bool valid = (index<=nodeNumber) && (index>0);
-    if(valid){
-        Node<ItemType>* temp = head;
-        while(temp!=nullptr && temp->next != nullptr && index > 0){
-                temp = temp->next;
-                index--;
+template <>
+Node<Subscriber>* LinkedList<Subscriber>::getNodeFromId(int id){
+    Node <Subscriber> *temp = head;
+    while(temp!=nullptr){
+        if(temp->itemptr->getId() == id){
+            return temp;
         }
-        return (*temp).data;
+        temp = temp->next;
     }
+    //cout<<"Id cannot be found in the list!\n";
+    return nullptr;
 }
-*/

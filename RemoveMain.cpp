@@ -8,11 +8,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Node.h"
 #include "LinkedList.h"
-#include "Movie.h"
-#include "Subscriber.h"
-#include "Transaction.h"
+//#include "Movie.h"
+//#include "Subscriber.h"
+//#include "Transaction.h"
 using namespace std;
 //typedef Movie ItemType;
 

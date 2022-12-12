@@ -5,7 +5,7 @@
 *CS201 HW3
 */
 #include <iostream>
-#include "Subscriber.h"
+#include "LinkedList.h"
 using namespace std;
 
 Subscriber::Subscriber(int newid){

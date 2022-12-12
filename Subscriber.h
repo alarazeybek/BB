@@ -3,12 +3,13 @@
 *22102544
 *Section-002
 *CS201 HW3
-*/
+
 #ifndef SUBSCRIBER_H
 #define SUBSCRIBER_H
 #include <iostream>
 #include "string"
 #include "LinkedList.h"
+#include "Movie.h"
 using namespace std;
 
 class Subscriber{
@@ -25,3 +26,4 @@ class Subscriber{
         void setId(int& newid);
 };
 #endif
+*/

@@ -7,14 +7,40 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 #include <iostream>
-#include "Node.h"
+//#include "Node.h"
 #include "Movie.h"
-#include "Subscriber.h"
+//#include "Subscriber.h"
 #include "Transaction.h"
 #include "string"
 using namespace std;
 
+//-------------------------------------NODE----------------------
 
+template <class ItemType>
+struct Node{
+    public:
+    ItemType* itemptr = nullptr;
+    Node* next = nullptr;
+    Node(){
+        itemptr = nullptr;
+        next = nullptr;
+    };
+    Node( const Node<ItemType>& n){
+        ItemType* i = new ItemType;
+        itemptr = n->itemptr;
+        next = nullptr;
+    };
+    ~Node(){
+        delete itemptr;
+        next = nullptr;
+    };
+    Node(ItemType* data){
+        itemptr = data;
+        next = nullptr;
+    };
+};
+
+//---------------------------------------------------------------
 template <class ItemType>
 class LinkedList
 {
@@ -35,6 +61,35 @@ public:
     int compareIDs(Node<ItemType>* n1, Node<ItemType>* n2);
 };
 #endif
+#ifndef SUBSCRIBER_H
+#define SUBSCRIBER_H
+class Subscriber{
+    private:
+        int id;
+    public:
+        LinkedList<Movie> *rentedList = nullptr;
+
+        Subscriber(int newid);
+        ~Subscriber();
+        void rentMovie(Node<Movie>* n);
+        void returnMovie(Node<Movie>* n);
+        int getId();
+        void setId(int& newid);
+};
+#endif
+template <>
+int LinkedList<Movie>::compareIDs(Node<Movie>* n1, Node<Movie>* n2);
+template <>
+int LinkedList<Subscriber>::compareIDs(Node<Subscriber>* n1, Node<Subscriber>* n2);
+template <>
+int LinkedList<Transaction>::compareIDs(Node<Transaction>* n1, Node<Transaction>* n2);
+template <>
+Node<Transaction>* LinkedList<Transaction>::getNodeFromId(int id);
+template <>
+Node<Movie>* LinkedList<Movie>::getNodeFromId(int id);
+template <>
+Node<Subscriber>* LinkedList<Subscriber>::getNodeFromId(int id);
+
 //-----------------------------------------------------CONSTRUCTOR & DESTRUCTOR----------------------------------------
 template <class ItemType>
 LinkedList<ItemType>::LinkedList(){
@@ -124,34 +179,9 @@ void LinkedList<ItemType>::remove(Node<ItemType>*& n){
 }
 //create a remove method which took a index and deleted that one
 
-
 //------------------------------------------------HELPER METHODS-----------------------------------------------------------
 template <class ItemType>
 Node<ItemType>* LinkedList<ItemType>::getNodeFromId(int id){
-    return nullptr;
-}
-template <>
-Node<Movie>* LinkedList<Movie>::getNodeFromId(int id){
-    Node<Movie> *temp = head;
-    while(temp!=nullptr){
-        if(temp->itemptr->getId() == id){
-            return temp;
-        }
-        temp = temp->next;
-    }
-    //cout<<"Id cannot be found in the list!\n";
-    return nullptr;
-}
-template <>
-Node<Subscriber>* LinkedList<Subscriber>::getNodeFromId(int id){
-    Node <Subscriber> *temp = head;
-    while(temp!=nullptr){
-        if(temp->itemptr->getId() == id){
-            return temp;
-        }
-        temp = temp->next;
-    }
-    //cout<<"Id cannot be found in the list!\n";
     return nullptr;
 }
 template <class ItemType>
@@ -191,36 +221,7 @@ template <class ItemType>
 int LinkedList<ItemType>::getLength(){
     return nodeNumber;
 }
-//-----------------------------------------COMPARE IDS-------------------------------------------
 template <class ItemType>
 int LinkedList<ItemType>::compareIDs(Node<ItemType>* n1, Node<ItemType>* n2){
-    return -666;
-}
-template <>
-int LinkedList<Movie>::compareIDs(Node<Movie>* n1, Node<Movie>* n2){
-    if(n1->itemptr->getId() ==  n2->itemptr->getId()){
-        return 0;
-    }
-    else if(n1->itemptr->getId() >  n2->itemptr->getId()){
-        return 1;
-    }
-    else if(n1->itemptr->getId() <  n2->itemptr->getId()){
-        return -1;
-    }
-//    May  need to delete here as well
-    return -666;
-}
-template <>
-int LinkedList<Subscriber>::compareIDs(Node<Subscriber>* n1, Node<Subscriber>* n2){
-    if(n1->itemptr->getId() ==  n2->itemptr->getId()){
-        return 0;
-    }
-    else if(n1->itemptr->getId() >  n2->itemptr->getId()){
-        return 1;
-    }
-    else if(n1->itemptr->getId() <  n2->itemptr->getId()){
-        return -1;
-    }
-//    May  need to delete here as well
     return -666;
 }

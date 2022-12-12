@@ -15,10 +15,12 @@ class Transaction{
         int mID;
         int sID;
         string lable;
+        bool rent;
     public:
         Transaction(int movieID, int SubsID,bool isRent);
         int getMovie();
         int getSubscriber();
+        bool getRent();
         string getLabel();
 };
 #endif

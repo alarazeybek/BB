@@ -11,6 +11,7 @@ using namespace std;
 Transaction::Transaction(int movieID, int SubsID, bool isRent){
     mID = movieID;
     sID = SubsID;
+    rent = isRent;
     if(isRent){
         lable = "Subscriber " + to_string(sID) +" rented Movie " + to_string(mID);
     }
@@ -26,4 +27,7 @@ int Transaction::getSubscriber(){
 }
 string Transaction::getLabel(){
     return lable;
+}
+bool Transaction::getRent(){
+    return rent;
 }

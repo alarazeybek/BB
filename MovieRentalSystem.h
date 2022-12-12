@@ -8,9 +8,6 @@
 #define MOVIERNRENTALSYSTEM_H
 #include <iostream>
 #include "Node.h"
-#include "Movie.h"
-#include "Subscriber.h"
-#include "Transaction.h"
 #include "LinkedList.h"
 using namespace std;
 

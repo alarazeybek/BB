@@ -39,11 +39,12 @@ void MovieRentalSystem::removeSubscriber( const int subscriberId ){
 //--------------------------------------RENT & RETURN MOVIE--------------------------------------
 void MovieRentalSystem::rentMovie( const int subscriberId, const int movieId ){ 
     Node<Subscriber>* whoRent = subsList->getNodeFromId(subscriberId);
-    Node<Movie>* movieFromId = movieList->getNodeFromId(subscriberId);
+    Node<Movie>* movieFromId = movieList->getNodeFromId(movieId);
     if(movieList->isExist(movieFromId) && subsList->isExist(whoRent)){ //checking movie and subs exist
         if(movieFromId->itemptr->getLeftCount()>0){ //checking available copy exist
             movieFromId->itemptr->setLeftCount(-1);
-            Node<Movie>* beRented = new Node(*movieFromId);
+            Movie* m = new Movie(*(movieFromId->itemptr));
+            Node<Movie>* beRented = new Node<Movie>(m);
             whoRent->itemptr->rentMovie(beRented);
             Transaction* t = new Transaction(movieId,subscriberId,true);
             Node<Transaction>* trans = new Node<Transaction>(t);
@@ -71,7 +72,7 @@ void MovieRentalSystem::returnMovie( const int subscriberId, const int movieId )
     Node<Subscriber>* whoRent = subsList->getNodeFromId(subscriberId);
     Node<Movie>* movieFromId = movieList->getNodeFromId(subscriberId);
     if(movieList->isExist(movieFromId) && subsList->isExist(whoRent)){ //checking movie and subs exist
-        Node<Movie>* temp(movieFromId);
+        Node<Movie>* temp = whoRent->itemptr->rentedList->getNodeFromId(movieId);
         if(whoRent->itemptr->rentedList->isExist(temp)){ //checking subscriber has rented that movie or not
             movieFromId->itemptr->setLeftCount(1);
             whoRent->itemptr->returnMovie(temp);

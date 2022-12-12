@@ -34,7 +34,7 @@ public:
     Node<ItemType>* getNodeFromId(int id);
     int compareIDs(Node<ItemType>* n1, Node<ItemType>* n2);
 };
-
+#endif
 //-----------------------------------------------------CONSTRUCTOR & DESTRUCTOR----------------------------------------
 template <class ItemType>
 LinkedList<ItemType>::LinkedList(){
@@ -224,4 +224,3 @@ int LinkedList<Subscriber>::compareIDs(Node<Subscriber>* n1, Node<Subscriber>* n
 //    May  need to delete here as well
     return -666;
 }
-#endif

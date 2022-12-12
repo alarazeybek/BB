@@ -8,9 +8,15 @@
 #include "Transaction.h"
 using namespace std;
 
-Transaction::Transaction(int movieID, int SubsID){
+Transaction::Transaction(int movieID, int SubsID, bool isRent){
     mID = movieID;
     sID = SubsID;
+    if(isRent){
+        lable = "Subscriber " + to_string(sID) +" rented Movie " + to_string(mID);
+    }
+    else{
+        lable = "Subscriber " + to_string(sID) +" returned Movie " + to_string(mID);
+    }
 }
 int Transaction::getMovie(){
     return mID;
@@ -19,6 +25,5 @@ int Transaction::getSubscriber(){
     return sID;
 }
 string Transaction::getLabel(){
-    string str = "Subscriber " + to_string(sID) +" rented Movie " + to_string(mID);
-    return str;
+    return lable;
 }

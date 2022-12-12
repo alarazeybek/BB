@@ -8,13 +8,19 @@
 #define SUBSCRIBER_H
 #include <iostream>
 #include "string"
+#include "LinkedList.h"
 using namespace std;
 
 class Subscriber{
     private:
         int id;
     public:
+        LinkedList<Movie> *rentedList = nullptr;
+
         Subscriber(int newid);
+        ~Subscriber();
+        void rentMovie(Node<Movie>* n);
+        void returnMovie(Node<Movie>* n);
         int getId();
         void setId(int& newid);
 };

@@ -14,11 +14,15 @@ class Movie{
     private:
         int id;
         int count;
+        int LeftCount;
     public:
         Movie(int newid, int newcount);
+        Movie(const Movie& aMovie);
         int getId();
         int getCount();
+        int getLeftCount();
         void setId(int& newid);
         void setCount(int& newcount); 
+        void setLeftCount(int dif); 
 };
 #endif

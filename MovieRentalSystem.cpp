@@ -7,7 +7,7 @@
 #include <iostream>
 #include "MovieRentalSystem.h"
 using namespace std;
-
+//---------------------------------------CONSTRUCTOR & DECONSTRUCTOR--------------------------------
 MovieRentalSystem::MovieRentalSystem( const string movieInfoFileName,
 const string subscriberInfoFileName ){
     movieList = new LinkedList<Movie>();
@@ -19,6 +19,8 @@ MovieRentalSystem::~MovieRentalSystem(){
     delete subsList;
     delete transList;
 }
+
+//------------------------------------REMOVE MOVIE-SUBS & ADD MOVIE---------------------------------
 void MovieRentalSystem::removeMovie( const int movieId ){
     //finding the ID movie
     Node<Movie>* toRemove = movieList->getNodeFromId(movieId);
@@ -33,10 +35,76 @@ void MovieRentalSystem::removeSubscriber( const int subscriberId ){
     Node<Subscriber>* toRemove = subsList->getNodeFromId(subscriberId);
     subsList->remove(toRemove); //nullptr olmasını remove methodu check eder
 }
-void rentMovie( const int subscriberId, const int movieId );
-void returnMovie( const int subscriberId, const int movieId );
-void showMoviesRentedBy( const int subscriberId ) const;
-void showSubscribersWhoRentedMovie( const int movieId ) const;
+
+//--------------------------------------RENT & RETURN MOVIE--------------------------------------
+void MovieRentalSystem::rentMovie( const int subscriberId, const int movieId ){ 
+    Node<Subscriber>* whoRent = subsList->getNodeFromId(subscriberId);
+    Node<Movie>* movieFromId = movieList->getNodeFromId(subscriberId);
+    if(movieList->isExist(movieFromId) && subsList->isExist(whoRent)){ //checking movie and subs exist
+        if(movieFromId->itemptr->getLeftCount()>0){ //checking available copy exist
+            movieFromId->itemptr->setLeftCount(-1);
+            Node<Movie>* beRented = new Node(*movieFromId);
+            whoRent->itemptr->rentMovie(beRented);
+            Transaction* t = new Transaction(movieId,subscriberId,true);
+            Node<Transaction>* trans = new Node<Transaction>(t);
+            transList->insert(trans);
+            return;
+        }
+       else{
+            cout<<"no available copy";
+       }
+    }
+    else if(!movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
+        cout<<"no movie and no subs\n";
+        return;
+    }
+    else if(!movieList->isExist(movieFromId) && subsList->isExist(whoRent)){
+        cout<<"no movie and yes subs\n";
+        return;
+    }
+    else if(movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
+        cout<<"yes movie and no subs\n";
+        return;
+    }
+}
+void MovieRentalSystem::returnMovie( const int subscriberId, const int movieId ){
+    Node<Subscriber>* whoRent = subsList->getNodeFromId(subscriberId);
+    Node<Movie>* movieFromId = movieList->getNodeFromId(subscriberId);
+    if(movieList->isExist(movieFromId) && subsList->isExist(whoRent)){ //checking movie and subs exist
+        Node<Movie>* temp(movieFromId);
+        if(whoRent->itemptr->rentedList->isExist(temp)){ //checking subscriber has rented that movie or not
+            movieFromId->itemptr->setLeftCount(1);
+            whoRent->itemptr->returnMovie(temp);
+            Transaction* t = new Transaction(movieId,subscriberId,false);
+            Node<Transaction>* trans = new Node<Transaction>(t);
+            transList->insert(trans);
+            return;
+        }
+       else{
+            cout<<"Subs has not rented that movie";
+       }
+    }
+    else if(!movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
+        cout<<"no movie and no subs\n";
+        return;
+    }
+    else if(!movieList->isExist(movieFromId) && subsList->isExist(whoRent)){
+        cout<<"no movie and yes subs\n";
+        return;
+    }
+    else if(movieList->isExist(movieFromId) && !subsList->isExist(whoRent)){
+        cout<<"yes movie and no subs\n";
+        return;
+    }
+}
+
+//----------------------------------------------TO STRINGS-------------------------------------------
+void showMoviesRentedBy( const int subscriberId ) { 
+
+}
+void showSubscribersWhoRentedMovie( const int movieId ) {
+
+}
 
 void MovieRentalSystem::showAllMovies() const{
     cout<<"Movies in the movie rental system:"<<endl;

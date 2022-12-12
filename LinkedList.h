@@ -144,7 +144,7 @@ Node<Movie>* LinkedList<Movie>::getNodeFromId(int id){
 }
 template <>
 Node<Subscriber>* LinkedList<Subscriber>::getNodeFromId(int id){
-    Node<Subscriber> *temp = head;
+    Node <Subscriber> *temp = head;
     while(temp!=nullptr){
         if(temp->itemptr->getId() == id){
             return temp;
@@ -158,7 +158,7 @@ template <class ItemType>
 bool LinkedList<ItemType>::isExist(Node<ItemType>*& n){
     Node<ItemType>* temp = head;
     if(n == nullptr){
-        return 0;
+        return false;
     }
     while(temp!=nullptr){
         if(compareIDs(temp,n) == 0){

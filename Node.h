@@ -19,6 +19,11 @@ struct Node{
         itemptr = nullptr;
         next = nullptr;
     }
+   /* Node(const &Node<ItemType> n){
+        ItemType* i = new ItemType;
+        itemptr = n->itemptr;
+        next = nullptr;
+    }*/
     ~Node(){
         delete itemptr;
         next = nullptr;

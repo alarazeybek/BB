@@ -49,7 +49,6 @@ if(!movie || !sub){
             Subscriber* tempSubs = new Subscriber(subscriberInfo);
             Node<Subscriber>* tempNode = new Node<Subscriber>(tempSubs);
             subsList->insert(tempNode);
-            cout<<"Inserted ID: "<<tempNode->itemptr->getId()<<endl;
         }
         //cout<<subsList->getLength()<<" subscribers and "<<movieList->getLength()<<" movies have been loaded"<<endl;
         cout<<begin2<<" subscribers and "<<begin1<<" movies have been loaded"<<endl; 
@@ -285,13 +284,13 @@ void MovieRentalSystem::showSubscribersWhoRentedMovie( const int movieId ) {
     bool isExist = false;
     while(temp != nullptr){
         if(temp->itemptr->getMovie() == movieId){
-            isExist == true;
+            isExist = true;
             break;
         }
         temp = temp->next;
     }
     if(isExist){
-        cout<<"Movie 100 has been rented by the following subscribers:"<<endl;
+        cout<<"Movie "<<movieId<<" has been rented by the following subscribers:"<<endl;
         temp = transList->head;
         while(temp != nullptr){
             if(temp->itemptr->getMovie() == movieId){

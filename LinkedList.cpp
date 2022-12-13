@@ -100,3 +100,30 @@ Node<Subscriber>* LinkedList<Subscriber>::getNodeFromId(int id){
     //cout<<"Id cannot be found in the list!\n";
     return nullptr;
 }
+template<>
+bool LinkedList<Transaction>::insert(Node<Transaction>* n){
+
+    if(head == nullptr){ //empty list
+        head = n;
+        nodeNumber++;
+        return true;
+    }
+    else if(compareIDs(n,head)<0){ //n is the smallest ID
+        n->next = head;
+        head = n;
+        nodeNumber++;
+        return true;
+    }
+    else{
+        Node<Transaction>* left = head;
+        Node<Transaction>* right = head->next;
+        while(right != nullptr && compareIDs(n,right)>0){
+            left = right;
+            right = right->next;
+        }
+        left->next = n;
+        n->next = right;
+        nodeNumber++;
+        return true;
+    }
+}

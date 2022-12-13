@@ -16,11 +16,15 @@ class Transaction{
         int sID;
         string lable;
         bool rent;
+        bool isBack;
     public:
         Transaction(int movieID, int SubsID,bool isRent);
         int getMovie();
         int getSubscriber();
         bool getRent();
         string getLabel();
+        bool getIsBack();
+        void setIsBack(bool b);
+        
 };
 #endif

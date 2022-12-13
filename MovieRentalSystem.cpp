@@ -169,8 +169,19 @@ void MovieRentalSystem::returnMovie( const int subscriberId, const int movieId )
             movieFromId->itemptr->setLeftCount(1);
             whoRent->itemptr->returnMovie(temp);
             Transaction* t = new Transaction(movieId,subscriberId,false);
-            Node<Transaction>* trans = new Node<Transaction>(t);
-            transList->insert(trans);
+            Node<Transaction>* trans1 = new Node<Transaction>(t);
+            transList->insert(trans1);
+            //-------------------------updateTansactionForReturnedElement---------------
+            Node<Transaction>* trans = transList->head;
+            while(trans!=nullptr && trans->itemptr->getMovie() != t->getMovie() && trans->itemptr->getSubscriber() != t->getSubscriber()){
+                if(trans->itemptr->getIsBack() == 0){
+                    break;
+                }
+                trans = trans->next;
+            }
+            trans->itemptr->setIsBack(1);
+
+
             cout<<"Movie "<<movieId<<" has been returned by subscriber "<<subscriberId<<endl;
             return;
         }
@@ -204,6 +215,48 @@ void MovieRentalSystem::showMoviesRentedBy( const int subscriberId ) {
         cout<<"Subscriber "<<subscriberId<<" has not rented any movies"<<endl;
         return;
     }
+    cout<<"Subscriber "<<subscriberId<<" has rented the following movies:\n";
+    Node<Transaction>* temp = transList->head;
+    while(temp != nullptr){
+        if(temp->itemptr->getSubscriber() == subscriberId){
+            if(temp->itemptr->getRent()){
+                if(temp->itemptr->getIsBack()){
+                    cout<<temp->itemptr->getMovie()<<" returned"<<endl;
+                }
+                else{
+                    cout<<temp->itemptr->getMovie()<<" not returned"<<endl;
+                }
+            }
+        }
+        temp = temp->next;
+    }
+    /*Node<Transaction>* temp = transList->head;
+    Node<Movie>* temp2 = subs->itemptr->rentedList->head;
+    while(temp!=nullptr){
+        if(temp->itemptr->getSubscriber() == subscriberId){
+            bool b = temp->itemptr->getRent();
+            if(!b){//returning
+                if(temp->itemptr->getMovie() >= temp2->itemptr->getId()){
+                    cout<< temp->itemptr->getMovie() << "returned"<<endl;
+                    temp = temp->next;
+                }
+                else if (temp->itemptr->getMovie() < temp2->itemptr->getId()){
+                    cout<< temp2->itemptr->getId() << " not returned"<<endl;
+                    temp2 = temp2->next;
+                }
+            }
+        }
+        
+    }*/
+    /*Node<Subscriber>* subs = subsList->getNodeFromId(subscriberId);
+    if(subs == nullptr){
+        cout<<"Subscriber "<<subscriberId<<" does not exist"<<endl;
+        return;
+    }
+    else if(subs->itemptr->rentedList->getLength() == 0){
+        cout<<"Subscriber "<<subscriberId<<" has not rented any movies"<<endl;
+        return;
+    }
     else{
         cout<<"Subscriber "<<subscriberId<<" has rented the following movies:\n"; //trans arrayi geç eğer bool true ise subs->rented arrayinde de exist is not returned bas değilse returned bas
         Node<Transaction>* trans = transList->head;
@@ -219,7 +272,7 @@ void MovieRentalSystem::showMoviesRentedBy( const int subscriberId ) {
             }
             trans = trans->next;
         }
-    }
+    }*/
 }
 void MovieRentalSystem::showSubscribersWhoRentedMovie( const int movieId ) {
 

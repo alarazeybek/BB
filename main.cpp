@@ -51,6 +51,8 @@ int main( ) {
     MRS.returnMovie( 1111, 20 );
     MRS.rentMovie( 1111, 20 );
     cout << endl;
+    cout<<"ALY:\n";
+    MRS.showTransactions();
     MRS.showMoviesRentedBy( 1111 );
     MRS.showMoviesRentedBy( 8888 );
     MRS.showMoviesRentedBy( 2222 );
@@ -71,7 +73,6 @@ int main( ) {
     cout << endl;
     MRS.removeSubscriber( 5555 );
     cout << endl;
-    //MRS.showTransactions();
     MRS.removeSubscriber( 6666 );
     cout << endl;
     MRS.showAllSubscribers();

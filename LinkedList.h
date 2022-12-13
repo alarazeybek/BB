@@ -89,6 +89,8 @@ template <>
 Node<Movie>* LinkedList<Movie>::getNodeFromId(int id);
 template <>
 Node<Subscriber>* LinkedList<Subscriber>::getNodeFromId(int id);
+template<>
+bool LinkedList<Transaction>::insert(Node<Transaction>* n);
 
 //-----------------------------------------------------CONSTRUCTOR & DESTRUCTOR----------------------------------------
 template <class ItemType>

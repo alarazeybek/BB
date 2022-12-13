@@ -15,10 +15,12 @@ Transaction::Transaction(int movieID, int SubsID, bool isRent){
     if(isRent){
         //lable = "Subscriber " + to_string(sID) +" rented Movie " + to_string(mID);
         lable = "Movie " + to_string(mID) + " has been rented by subscriber "+to_string(sID);
+        isBack = 0;
     }
     else{
         //lable = "Subscriber " + to_string(sID) +" returned Movie " + to_string(mID);
         lable = "Movie " + to_string(mID) + " has been returned by subscriber "+to_string(sID);
+        isBack = 1;
     }
 }
 int Transaction::getMovie(){
@@ -32,4 +34,10 @@ string Transaction::getLabel(){
 }
 bool Transaction::getRent(){
     return rent;
+}
+void Transaction::setIsBack(bool b){
+    isBack = b;
+}
+bool Transaction::getIsBack(){
+    return isBack;
 }

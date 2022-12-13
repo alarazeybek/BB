@@ -32,5 +32,6 @@ class MovieRentalSystem {
         void showAllSubscribers(); //const;
 
         void showTransactions();
+        void updateTansactionForReturnedElement();
 };
 #endif

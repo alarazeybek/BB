@@ -98,7 +98,7 @@ void MovieRentalSystem::addMovie( const int movieId, const int numCopies ){
 
 void MovieRentalSystem::removeSubscriber( const int subscriberId ){
     Node<Subscriber>* toRemove = subsList->getNodeFromId(subscriberId);
-    bool NoRentedMovie ;
+    bool NoRentedMovie = 0;
     if(toRemove!=nullptr){
        NoRentedMovie = toRemove->itemptr->rentedList->isEmpty();
     }
@@ -173,8 +173,8 @@ void MovieRentalSystem::returnMovie( const int subscriberId, const int movieId )
             transList->insert(trans1);
             //-------------------------updateTansactionForReturnedElement---------------
             Node<Transaction>* trans = transList->head;
-            while(trans!=nullptr && trans->itemptr->getMovie() != t->getMovie() && trans->itemptr->getSubscriber() != t->getSubscriber()){
-                if(trans->itemptr->getIsBack() == 0){
+            while(trans!=nullptr){
+                if(trans->itemptr->getMovie() == t->getMovie() && trans->itemptr->getSubscriber() == t->getSubscriber() && trans->itemptr->getIsBack() == 0){
                     break;
                 }
                 trans = trans->next;

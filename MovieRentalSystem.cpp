@@ -25,7 +25,7 @@ const string subscriberInfoFileName ){
     sub.open(s);
 if(!movie || !sub){
         if(!movie && !sub){
-            cout << "Input files " << movieInfoFileName << " and " << subscriberInfoFileName << " does not exist" << endl;
+            cout << "Input files " << movieInfoFileName << " and " << subscriberInfoFileName << " do not exist" << endl;
         }
         else if(!movie){
             cout << "Input file " << movieInfoFileName << " does not exist" << endl;
@@ -69,9 +69,9 @@ void MovieRentalSystem::removeMovie( const int movieId ){
         count = toRemove->itemptr->getCount();
         leftCount = toRemove->itemptr->getLeftCount();
     }
-    bool b = movieList->remove(toRemove); //nullptr olmasını remove methodu check eder
-    if(b){
+    if(toRemove != nullptr){
         if(count == leftCount){ //toRemove->itemptr->getLeftCount() == toRemove->itemptr->getCount()
+            movieList->remove(toRemove);
             cout<<"Movie "<<movieId<<" has been removed"<<endl;
         }
         else{
@@ -115,7 +115,7 @@ void MovieRentalSystem::removeSubscriber( const int subscriberId ){
                 }
                 ptr = temp;
             }
-            cout<<"Subscriber "<<subscriberId<<" has been removed"; //ta forgot endl
+            cout<<"Subscriber "<<subscriberId<<" has been removed"<<endl; //ta forgot endl
         }
         else{
             cout<<"Subscriber "<<subscriberId<<" cannot be removed -- at least one movie has not been returned"<<endl;
@@ -329,7 +329,7 @@ void MovieRentalSystem::showAllMovies() {
     }
 }
 void MovieRentalSystem::showAllSubscribers() {
-   cout<<"\nSubscribers in the movie rental system:"<<endl;
+   cout<<"Subscribers in the movie rental system:"<<endl;
     if(subsList->isEmpty()){
         cout<<"None"<<endl;
     }

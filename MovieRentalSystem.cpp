@@ -174,12 +174,12 @@ void MovieRentalSystem::returnMovie( const int subscriberId, const int movieId )
             //-------------------------updateTansactionForReturnedElement---------------
             Node<Transaction>* trans = transList->head;
             while(trans!=nullptr){
-                if(trans->itemptr->getMovie() == t->getMovie() && trans->itemptr->getSubscriber() == t->getSubscriber() && trans->itemptr->getIsBack() == 0){
+                if(trans->itemptr->getMovie() == t->getMovie() && trans->itemptr->getSubscriber() == t->getSubscriber() && trans->itemptr->getIsBack() == false){
                     break;
                 }
                 trans = trans->next;
             }
-            trans->itemptr->setIsBack(1);
+            trans->itemptr->setIsBack(true);
 
 
             cout<<"Movie "<<movieId<<" has been returned by subscriber "<<subscriberId<<endl;
@@ -275,6 +275,10 @@ void MovieRentalSystem::showMoviesRentedBy( const int subscriberId ) {
     }*/
 }
 void MovieRentalSystem::showSubscribersWhoRentedMovie( const int movieId ) {
+    
+    /*
+     Iterate over the users one by one and also iterate their movies list.
+     */
 
 }
 

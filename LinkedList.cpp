@@ -44,13 +44,21 @@ int LinkedList<Transaction>::compareIDs(Node<Transaction>* n1, Node<Transaction>
     if(n1->itemptr->getMovie() ==  n2->itemptr->getMovie()){
         if(n1->itemptr->getSubscriber() ==  n2->itemptr->getSubscriber()){
             if(n1->itemptr->getRent() ==  n2->itemptr->getRent()){
-                return 0;
+                if(n1->itemptr->getIsBack() ==  n2->itemptr->getIsBack()){
+                    return 0;
+                }
+                else if(n1->itemptr->getIsBack() == true && n2->itemptr->getIsBack() == false){
+                    return -1;
+                }
+                else if(n1->itemptr->getIsBack() == false && n2->itemptr->getIsBack() == true){
+                    return 1;
+                }
             }
             else if(n1->itemptr->getRent() == true &&  n2->itemptr->getRent() == false){
-                return -1;
+                return 1;
             }
             else if(n1->itemptr->getRent() == false &&  n2->itemptr->getRent() == true){
-                return 1;
+                return -1;
             }
         }
         else if(n1->itemptr->getSubscriber() >  n2->itemptr->getSubscriber()){

@@ -276,9 +276,43 @@ void MovieRentalSystem::showMoviesRentedBy( const int subscriberId ) {
 }
 void MovieRentalSystem::showSubscribersWhoRentedMovie( const int movieId ) {
     
-    /*
-     Iterate over the users one by one and also iterate their movies list.
-     */
+    Node<Movie>* movie = movieList->getNodeFromId(movieId);
+    if(movie == nullptr){
+        cout<<"Movie "<<movieId<<" does not exist"<<endl;
+        return;
+    }
+    Node<Transaction>* temp = transList->head;
+    bool isExist = false;
+    while(temp != nullptr){
+        if(temp->itemptr->getMovie() == movieId){
+            isExist == true;
+            break;
+        }
+        temp = temp->next;
+    }
+    if(isExist){
+        cout<<"Movie 100 has been rented by the following subscribers:"<<endl;
+        temp = transList->head;
+        while(temp != nullptr){
+            if(temp->itemptr->getMovie() == movieId){
+                if(temp->itemptr->getRent() == true){
+                    if(temp->itemptr->getIsBack() == true){
+                        cout<<temp->itemptr->getSubscriber()<<" returned"<<endl;
+                    }
+                    else{
+                        cout<<temp->itemptr->getSubscriber()<<" not returned"<<endl;
+                    }
+                }
+            }
+            temp = temp->next;
+        }
+    }
+    else{
+        cout<<"Movie "<<movieId<<" has not been rented by any subscriber"<<endl;
+    }
+   
+
+    
 
 }
 
